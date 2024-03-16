@@ -22,6 +22,9 @@ class Application(tk.Frame):
         self.create_menu()  # メニューの作成
         self.create_widget()  # ウィジェットの作成
 
+        self._offset_x = 0
+        self._offset_y = 0
+
         # 初期アフィン変換行列
         self.reset_transform()
 
@@ -79,7 +82,7 @@ class Application(tk.Frame):
 
         # マウスイベント
         self.master.bind("<Button-1>", self.mouse_down_left)  # MouseDown
-        self.master.bind("<B1-Motion>", self.mouse_move_left)  # MouseDrag（ボタンを押しながら移動）
+        self.canvas.bind("<B1-Motion>", self.mouse_move_left)  # MouseDrag（ボタンを押しながら移動）
         self.canvas.bind("<Motion>", self.mouse_move)  # MouseMove
         self.master.bind("<Double-Button-1>", self.mouse_double_click_left)  # MouseDoubleClick
         self.master.bind("<MouseWheel>", self.mouse_wheel)  # MouseWheel
@@ -109,9 +112,12 @@ class Application(tk.Frame):
     # -------------------------------------------------------------------------------
     def mouse_down_left(self, event):
         ''' マウスの左ボタンを押した '''
-        self.img_arr = np.array(self.img_transformed)
-        print(self.img_arr.shape)
+        #self.img_arr = np.array(self.img_dst)
+        #print(self._offset_x,self._offset_y)
         self.__old_event = event
+
+        px = self.img_dst.load()
+        print(px[event.x, event.y])
 
     def mouse_move_left(self, event):
         ''' マウスの左ボタンをドラッグ '''
@@ -166,12 +172,15 @@ class Application(tk.Frame):
         self.mat_affine = np.eye(3)  # 3x3の単位行列
 
     def translate(self, offset_x, offset_y):
+        self._offset_x += offset_x
+        self._offset_y += offset_y
         ''' 平行移動 '''
         mat = np.eye(3)  # 3x3の単位行列
         mat[0, 2] = float(offset_x)
         mat[1, 2] = float(offset_y)
 
         self.mat_affine = np.dot(mat, self.mat_affine)
+        #print(offset_x, offset_y)
 
     def scale(self, scale: float):
         ''' 拡大縮小 '''
@@ -289,7 +298,9 @@ class Application(tk.Frame):
             affine_inv,  # アフィン変換行列（出力→入力への変換行列）
             Image.NEAREST  # 補間方法、ニアレストネイバー
         )
-        self.img_transformed = dst
+        self.img_dst = dst
+        #print('DST:', dst)
+        #print('PIL:', self.pil_image)
         im = ImageTk.PhotoImage(image=dst)
 
         # 画像の描画
