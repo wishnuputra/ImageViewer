@@ -1,6 +1,6 @@
 import tkinter as tk  # ウィンドウ作成用
 from tkinter import filedialog  # ファイルを開くダイアログ用
-from PIL import Image, ImageTk  # 画像データ用
+from PIL import Image, ImageTk, ImageDraw  # 画像データ用
 import math  # 回転の計算用
 import numpy as np  # アフィン変換行列演算用
 import os  # ディレクトリ操作用
@@ -116,6 +116,11 @@ class Application(tk.Frame):
         #print(self._offset_x,self._offset_y)
         self.__old_event = event
 
+        # square_size = 10
+        # if self.pil_image:
+        #     self.canvas.create_rectangle(event.x-square_size, event.y-square_size, event.x+square_size, event.y+square_size, fill='', outline='red')
+        #     drawn_image = ImageDraw.Draw(self.pil_image)
+        #     drawn_image.rectangle([(event.x,event.y),(square_size,square_size)])
         px = self.img_dst.load()
         print(px[event.x, event.y])
 
@@ -276,6 +281,11 @@ class Application(tk.Frame):
             return
 
         self.pil_image = pil_image
+        dimage = ImageDraw.Draw(self.pil_image)
+        w, h = 220, 190
+        shape = [(40, 40), (w - 10, h - 10)]
+        dimage.rectangle(shape, fill ="#ffff33", outline ="red")
+        del dimage
 
         # キャンバスのサイズ
         canvas_width = self.canvas.winfo_width()
@@ -298,9 +308,10 @@ class Application(tk.Frame):
             affine_inv,  # アフィン変換行列（出力→入力への変換行列）
             Image.NEAREST  # 補間方法、ニアレストネイバー
         )
-        self.img_dst = dst
+        #self.img_dst = dst
         #print('DST:', dst)
         #print('PIL:', self.pil_image)
+
         im = ImageTk.PhotoImage(image=dst)
 
         # 画像の描画
@@ -309,7 +320,6 @@ class Application(tk.Frame):
             anchor='nw',  # アンカー、左上が原点
             image=im  # 表示画像データ
         )
-
         self.image = im
 
     def redraw_image(self):
