@@ -47,11 +47,11 @@ class ZImageViewer():
         self._interaction_frame.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
         view_frame.pack()
 
-        self.master.bind("<Button-1>", self.mouseDownLeftClick)  # MouseDown
-        self.master.bind("<B1-Motion>", self.mouseDragLeftClick)  # MouseDrag（ボタンを押しながら移動）
-        self.master.bind("<Motion>", self.mouseMovement)  # MouseMove
-        self.master.bind("<Double-Button-1>", self.mouseDoubleLeftClick)  # MouseDoubleClick
-        self.master.bind("<MouseWheel>", self.mouseWheel)  # MouseWheel
+        # self.master.bind("<Button-1>", self.mouseDownLeftClick)  # MouseDown
+        # self.master.bind("<B1-Motion>", self.mouseDragLeftClick)  # MouseDrag（ボタンを押しながら移動）
+        # self.master.bind("<Motion>", self.mouseMovement)  # MouseMove
+        # self.master.bind("<Double-Button-1>", self.mouseDoubleLeftClick)  # MouseDoubleClick
+        # self.master.bind("<MouseWheel>", self.mouseWheel)  # MouseWheel
 
     def openImage(self, event=None):
         filename = tk.filedialog.askopenfilename(

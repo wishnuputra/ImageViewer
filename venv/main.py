@@ -1,17 +1,14 @@
-todos = []
+import numpy as np
 
-while True:
-    user_action = input("Type add, show, or exit: ")
+filenames = ["1.ABC.txt", "2.wowo.doc", "3. yeye.man"]
+print(filenames)
 
-    match user_action:
-        case 'add':
-            todo = input("Enter a todo: ")
-            todos.append(todo)
-        case 'show':
-            [print(todo) for todo in todos]
-        case 'exit':
-            break
-        case _:
-            print("Not a valid input, please type again!!!")
+#filenames = np.asarray(filenames)
+filenames = np.asarray([file.replace(".", "-", 1) for file in filenames])
 
-print("Bye")
+#for i in range(len(filenames)):
+  #  filenames[i] = 1
+
+for file in filenames:
+    file = file.replace(".", "-", 1)
+print(filenames)
