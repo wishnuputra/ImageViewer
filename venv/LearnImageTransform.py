@@ -9,7 +9,7 @@ start = time.time()
 
 # open method used to open different extension image file
 im = Image.open(r"C:\Users\wishn\Downloads\pexels-micheile-oliviestrauss-11823968.jpg")
-im_arr = np.array((im))
+im_arr = np.asarray((im))
 # This method will show image in any image viewer
 #im.show()
 
@@ -38,10 +38,10 @@ def getPixelsInsideCircle(x, y, r, mat):
 # im_arr[0,0] = 0
 # print(im_arr[0][0])
 
-img_circled= getPixelsInsideCircle(2050, 3100, 100, im_arr)
+#img_circled= getPixelsInsideCircle(2050, 3100, 100, im_arr)
 # img_circled_pil = Image.fromarray(im_arr)
 # img_circled_pil.show()
 
 end = time.time()
 print(end - start)
-print(type(im_arr))
+#print(type(im_arr))
